@@ -45,12 +45,25 @@ userSchema.methods.sayHi = function() {
 }
 
 userSchema.statics.findByName = function(name) {
-    return this.where({ name: new RegExp(name, 'i')})
+    return this.find({ name: new RegExp(name, 'i')})
 }
 
 userSchema.query.byName = function (name) {
     return this.where({ name: new RegExp(name, 'i')})
 }
 
+userSchema.virtual('nameEmail').get(function() {
+    return `${this.name} <${this.email}>`
+})
+
+userSchema.pre('save', function(next) {
+    this.updatedAt = Date.now();
+    throw new Error('Fail save')
+})
+
+userSchema.post('save', function(doc,next) {
+    doc.sayHi()
+    next()
+})
 module.exports = mongoose.model("User", userSchema);
 

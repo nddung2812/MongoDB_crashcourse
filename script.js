@@ -6,18 +6,23 @@ async function run() {
     // const user = new User({name: "Johnny", age: 26});
     // await user.save()
     try {
-        // const user = await User.create({
-        //     name: "Johnny", 
-        //     age: 36,
-        //     email: "johnnytest@test.com",
-        //     hobbies: ["Weight Lifting", "Fishing"],
-        //     address: {
-        //         street: "Hope St"
-        //     }
-        // })
-        const user = await User.find().byName("Johnny")
-        // user.sayHi();
-        console.log(user)
+        // query level method
+        // const user = await User.find().byName("Johnny")
+
+        //simple level method
+        // const user = await User.findOne({name: "Johnny"})
+        // user.sayHi()
+
+        // static level method
+        // const user = await User.findByName("Johnny")
+        // console.log(user)
+
+        // Virtual level method
+        const user = await User.findOne({ name: "Johnny"})
+        await user.save();
+        console.log(user, "test")
+        
+
     } catch (e) {
         console.log(e.message)
     }
